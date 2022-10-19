@@ -176,7 +176,7 @@ def create_bucket():
     <style>
       *{font-family: Arial, Helvetica, sans-serif}
     </style>
-    <title>EC2 Instance Page</title>
+    <title>S3 Bucket Page</title>
   </head><h1>Cian Farrell - S3 Static Website</h1><br><img src="%s/logo.jpg"></HTML>"""%s3Url)
     bucket_website = s3.BucketWebsite(bucket_name) 
     bucket_website.put(WebsiteConfiguration=website_configuration)
