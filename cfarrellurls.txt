@@ -1,1 +1,2 @@
-Instance URL: http://44.204.64.253
+Instance URL: http://44.204.146.137
+Bucket URL: http://cfarrell335316.s3-website-us-east-1.amazonaws.com
