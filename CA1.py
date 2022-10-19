@@ -171,8 +171,13 @@ def create_bucket():
     }
 
     #Writes image tag to the HTML file
-    with open('index.html','a') as index:
-       index.write(f'<img src="{s3Url}/logo.jpg">')
+    with open('index.html','w') as index:
+       index.write("""<HTML>  <head>
+    <style>
+      *{font-family: Arial, Helvetica, sans-serif}
+    </style>
+    <title>EC2 Instance Page</title>
+  </head><h1>Cian Farrell - S3 Static Website</h1><br><img src="%s/logo.jpg"></HTML>"""%s3Url)
     bucket_website = s3.BucketWebsite(bucket_name) 
     bucket_website.put(WebsiteConfiguration=website_configuration)
    
@@ -228,21 +233,11 @@ def delete_all_buckets():
 
 
 def delete_all_instances():
-    print('Deleting instances')
+    print('Deleting Instances')
     for inst in ec2.instances.all():
 	    inst.terminate()
 
 
-def deleteLines(file,index = 0):
-    lines = open('index.html','r')
-    lines = lines.readlines()
-    lines = lines[:index]
-    try:
-        with open('index.html','w') as file:
-            for line in lines:
-                file.write(line)
-    except Exception as error:
-        print(f"Error loading {file}:\n{error}")
 
 def check_args(arg):
     for val in sys.argv:
@@ -258,7 +253,6 @@ if(check_args('-d')):
     delete_all_instances()
 
 else:
-    deleteLines('index.html',-1)
     instance = create_instance()
     bucket = create_bucket()
     monitorInfo = str(monitor(instance))
