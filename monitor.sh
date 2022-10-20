@@ -8,7 +8,8 @@ PROCESSES=$(expr $(ps -A | grep -c .) - 1)
 HTTPD_PROCESSES=$(ps -A | grep -c httpd)
 
 #Calculates CPU usage as a percentage
-CPUUSAGE=$(grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {print usage "%"}')
+CPUUSAGE=$(grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {print usage "%"}') #Taken from https://stackoverflow.com/questions/9229333/how-to-get-overall-cpu-usage-e-g-57-on-linux
+
 
 #Measures disk usage on drives
 
