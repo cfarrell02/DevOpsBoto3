@@ -1,2 +1,2 @@
-Instance URL: http://44.204.146.137
-Bucket URL: http://cfarrell335316.s3-website-us-east-1.amazonaws.comBucket URL: http://cfarrell578427.s3-website-us-east-1.amazonaws.comBucket URL: http://cfarrell551716.s3-website-us-east-1.amazonaws.comBucket URL: http://cfarrell287023.s3-website-us-east-1.amazonaws.comBucket URL: http://cfarrell674162.s3-website-us-east-1.amazonaws.comBucket URL: http://cfarrell651318.s3-website-us-east-1.amazonaws.com
+Instance URL: http://44.203.251.148
+Bucket URL: http://cfarrell060862.s3-website-us-east-1.amazonaws.com

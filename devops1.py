@@ -9,6 +9,7 @@ import webbrowser
 import subprocess
 import requests
 from datetime import datetime
+import threading
 import time
 
 ec2 = boto3.resource('ec2')
@@ -61,7 +62,7 @@ def send_email(content):
     print(f"--Email--\n{content}\n")
 
 
-def launch_url(url):
+def launch_url(url,message = "Launched!!\nAccess this webserver on:"):
     while(True):
         try:
             requests.get(url,timeout=2)
@@ -69,7 +70,7 @@ def launch_url(url):
             continue
         break
     
-    print("Launched!!\n\nAccess this webserver on:",url)
+    print(message,url)
     webbrowser.open_new_tab(url)
 
 
@@ -119,10 +120,11 @@ def create_instance():
     with open('cfarrellurls.txt','wt') as file:
         file.write(f'Instance URL: {url}\n')
     print("Instance is running!")
-    print("Waiting for web server to launch...")
+    print("Waiting for web server to launch (in Background)...")
 
     #Launch URL after waiting
-    launch_url(url = url)
+
+    threading.Thread(target=launch_url,args=(url,'Instance webserver has been launched\n',)).start()
     return new_instances[0]
 
 
@@ -207,7 +209,6 @@ def create_bucket():
 
 def calculate_costs(start_date = datestamp[:8]+"01",end_date = datestamp):
     try:
-        print("-------"+start_date)
         response = ce.get_cost_and_usage(
             TimePeriod = {
                 'Start':start_date,
@@ -227,6 +228,7 @@ def calculate_costs(start_date = datestamp[:8]+"01",end_date = datestamp):
 def delete_all_buckets():
     print('Deleting Buckets')
     for bucket in s3.buckets.all():
+        print('Deleting Bucket: '+bucket.name)
         for object in bucket.objects.all():
             bucket.delete_objects(Delete= {'Objects': [{'Key':object.key}]})
         bucket.delete()
@@ -235,7 +237,8 @@ def delete_all_buckets():
 def delete_all_instances():
     print('Deleting Instances')
     for inst in ec2.instances.all():
-	    inst.terminate()
+        print('Deleting Instance: '+inst.id)
+        inst.terminate()
 
 
 
@@ -257,5 +260,5 @@ else:
     bucket = create_bucket()
     monitorInfo = str(monitor(instance))
     send_email(f"Your instance is up and running!\n{monitorInfo}")
-    print(f"Total costs this month: ${calculate_costs()} USD")
+  #  print(f"Total costs this month: ${calculate_costs()} USD")
 
